@@ -20,7 +20,7 @@ RSpec.describe 'Merchant API' do
 
         expect(merchant).to have_key(:name)
         expect(merchant[:name]).to be_a String
-      end 
+      end
     end
   end
 end

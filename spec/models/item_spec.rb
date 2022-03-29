@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
@@ -10,6 +12,6 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'relationships' do
-    it {should belong_to(:merchant)}
+    it { should belong_to(:merchant) }
   end
 end

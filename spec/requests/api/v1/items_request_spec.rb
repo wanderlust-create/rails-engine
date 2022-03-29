@@ -2,11 +2,10 @@
 
 require 'rails_helper'
 RSpec.describe 'Item API' do
-  let(:merchant) {Merchant.create(name: 'Joe Happy')}
+  let(:merchant) { Merchant.create(name: 'Joe Happy') }
 
   describe 'GET/ items' do
     it 'sends a list of all items' do
-
       create_list(:item, 5, merchant_id: merchant.id)
 
       get '/api/v1/items'
@@ -15,11 +14,9 @@ RSpec.describe 'Item API' do
 
       items = JSON.parse(response.body, symbolize_names: true)
 
-
       expect(items.count).to eq 5
 
       items.each do |item|
-
         expect(item).to have_key(:id)
         expect(item[:id]).to be_an Integer
 
