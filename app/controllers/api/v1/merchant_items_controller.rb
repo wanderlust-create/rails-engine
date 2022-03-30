@@ -4,7 +4,11 @@ module Api
   module V1
     class MerchantItemsController < ApplicationController
       def index
-        render json: ItemSerializer.new(Item.where(merchant_id: params[:merchant_id]))
+        if !Merchant.exists?(params[:merchant_id])
+          render json: { error: 'Merchant does not exist', code: 404 }, status: :not_found
+        else
+          render json: ItemSerializer.new(Item.where(merchant_id: params[:merchant_id]))
+        end
       end
     end
   end
