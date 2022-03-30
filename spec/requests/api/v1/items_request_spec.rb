@@ -75,7 +75,18 @@ RSpec.describe 'Item API' do
         expect(item[:attributes]).to have_key(:merchant_id)
         expect(item[:attributes][:merchant_id]).to be_an Integer
         expect(item[:attributes][:merchant_id]).to eq(merchant.id)
+      end
+    end
 
+    context 'given incomplete information' do
+      it 'will return an error code when given incomplete information' do
+        item2_params = {
+          name: 'Sunny Disposition',
+          merchant_id: merchant.id
+        }
+        post '/api/v1/items', params: item2_params
+
+        expect(response).to have_http_status(400)
       end
     end
   end

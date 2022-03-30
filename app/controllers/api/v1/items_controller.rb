@@ -16,11 +16,12 @@ module Api
         if new_item.save
           render json: ItemSerializer.new(new_item), status: :created
         else
-          render json: {error: "Missing Information", code: 400 }, status: :bad_request
+          render json: { error: 'Missing Information', code: 400 }, status: :bad_request
         end
-      end 
+      end
 
       private
+
       def item_params
         params.permit(:name, :description, :unit_price, :merchant_id)
       end
