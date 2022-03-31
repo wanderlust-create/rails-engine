@@ -20,6 +20,24 @@ module Api
         end
       end
 
+      def find_by
+        if params[:name] && params[:min_price] && params[:max_price]
+          render json: { error: 'cannot send both name and min_price and max_price', code: 400 }, status: :bad_request
+        elsif params[:name] && params[:min_price]
+          render json: { error: 'cannot send both name and min_price', code: 400 }, status: :bad_request
+        elsif params[:name] && params[:max_price]
+          render json: { error: 'cannot send both name and max_price', code: 400 }, status: :bad_request
+        elsif params[:name] == '' || params[:max_price] == '' || params[:min_price] == ''
+          render json: { error: 'parameter cannot be empty', code: 400 }, status: :bad_request
+        elsif params['']
+          render json: { error: 'parameter cannot be missing', code: 400 }, status: :bad_request
+        else
+          search_params = { name: params[:name], min_price: params[:min_price], max_price: params[:max_price] }
+          item = Item.search(search_params)
+          render json: ItemSerializer.new(item)
+        end
+      end
+
       private
 
       def item_params
