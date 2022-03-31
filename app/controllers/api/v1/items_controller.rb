@@ -20,6 +20,39 @@ module Api
         end
       end
 
+      def find_by
+        if params[:name] && params[:min_price] && params[:max_price]
+          render json: { error: 'cannot send both name and min_price and max_price', code: 400 }, status: :bad_request
+
+        elsif params[:name] && params[:min_price]
+          render json: { error: 'cannot send both name and min_price', code: 400 }, status: :bad_request
+
+        elsif params[:name] && params[:max_price]
+          render json: { error: 'cannot send both name and max_price', code: 400 }, status: :bad_request
+
+        elsif params[:max_price] && params[:min_price] && params[:min_price].to_f > params[:max_price].to_f
+          render json: { error: 'min_price cannot be more than max_price', code: 400 }, status: :bad_request
+
+        elsif params[:max_price].to_f.negative? || params[:min_price].to_f.negative?
+          render json: { error: 'request cannot be lower than 0', data: {}, code: 400 }, status: :bad_request
+
+        elsif params[:name] == '' || params[:max_price] == '' || params[:min_price] == ''
+          render json: { error: 'parameter cannot be empty', code: 400 }, status: :bad_request
+
+        elsif params['']
+          render json: { error: 'parameter cannot be missing', code: 400 }, status: :bad_request
+
+        else
+          search_params = { name: params[:name], min_price: params[:min_price], max_price: params[:max_price] }
+          @item = Item.search(search_params)
+          if @item == []
+            render json: { message: 'no item fits your request', data: {}, code: 200 }, status: :ok
+          elsif @item.count.positive?
+            render json: ItemSerializer.new(Item.find(@item[0].id))
+          end
+        end
+      end
+
       private
 
       def item_params
