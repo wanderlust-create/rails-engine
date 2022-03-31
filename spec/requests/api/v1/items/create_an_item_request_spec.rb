@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-Rspec.describe 'POST/ item' do
+RSpec.describe 'POST/ item' do
+  let(:merchant) { Merchant.create!(name: 'Joe Happy') }
   context 'given complete information' do
     it 'will accept a request to create an item' do
       item1_params = {
