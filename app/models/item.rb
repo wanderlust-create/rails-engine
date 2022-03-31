@@ -13,14 +13,14 @@ class Item < ApplicationRecord
       where('name ILIKE ?', "%#{search_params[:name]}%").order(:name).limit 1
 
     elsif search_params[:min_price]
-      where('unit_price > ?', search_params[:min_price]).order(:unit_price).limit 1
+      where('unit_price >= ?', search_params[:min_price]).order(:unit_price).limit 1
 
     elsif search_params[:max_price]
-      where('unit_price < ?', search_params[:max_price]).order(:unit_price).limit 1
+      where('unit_price <= ?', search_params[:max_price]).order(:unit_price).limit 1
 
     else
       search_params[:min_price] && search_params[:max_price]
-      where('unit_price > ?  and unit_price < ?', search_params[:min_price]).limit 1
+      where('unit_price > ?  and unit_price < ?', search_params[:min_price]).order(:unit_price).limit 1
     end
   end
 end
