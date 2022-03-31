@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 RSpec.describe 'Item API' do
-  let(:merchant) { Merchant.create(name: 'Joe Happy') }
+  let(:merchant) { Merchant.create!(name: 'Joe Happy') }
 
   describe 'GET/ items' do
     it 'sends a list of all items' do
@@ -90,4 +90,31 @@ RSpec.describe 'Item API' do
       end
     end
   end
+end
+
+RSpec.describe 'Item Search with API' do
+
+  context 'GET/ item with FIND' do
+
+    let(:merchant1) { Merchant.create!(name: 'Lama Leaping') }
+    let(:merchant2) { Merchant.create!(name: 'Monkey Moaping') }
+    let(:item1) {Item.create!(name: 'One Item', description: 'one', unit_price: 12.77, merchant_id: merchant1.id)}
+    let(:item2) {Item.create!(name: 'Two Item', description: 'two', unit_price: 23.11, merchant_id: merchant1.id)}
+    let(:item3) {Item.create!(name: 'Three Item', description: 'three', unit_price: 1.7, merchant_id: merchant2.id)}
+    let(:item4) {Item.create!(name: 'Four Item', description: 'four', unit_price: 32.77, merchant_id: merchant2.id)}
+    let(:item5) {Item.create!(name: 'Five Item', description: 'five', unit_price: 175.7, merchant_id: merchant2.id)}
+
+    it 'returns a single item which matches the search term' do
+      search_by = { min_price: 25.00 }
+
+      get '/api/v1/items/find', params: search_by
+
+      expect(response).to have_http_status(200)
+
+      item = JSON.parse(response.body, symbolize_names: true)
+      # require "pry"; binding.pry
+    end
+  end
+
+
 end
