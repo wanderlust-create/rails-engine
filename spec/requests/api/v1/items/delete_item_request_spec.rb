@@ -9,7 +9,6 @@ RSpec.describe 'DELETE item' do
     item2 = Item.create!(name: 'Four Item', description: 'four', unit_price: 15.7, merchant_id: merchant.id)
     item3 = Item.create!(name: 'Five Item', description: 'five', unit_price: 175.7, merchant_id: merchant.id)
 
-
     expect(Item.count).to eq 3
 
     delete "/api/v1/items/#{item1.id}"
