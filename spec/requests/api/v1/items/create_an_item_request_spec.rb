@@ -41,7 +41,7 @@ RSpec.describe 'POST/ item' do
     end
   end
 
-  context 'given incomplete information' do
+  describe 'given incomplete information' do
     it 'will return an error code when given incomplete information' do
       item2_params = {
         name: 'Sunny Disposition',
