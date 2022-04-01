@@ -13,7 +13,7 @@ module Api
 
       def merchant_exist(params)
         if !Merchant.exists?(params[:merchant_id])
-          render json: { error: 'Merchant does not exist'}, status: :not_found
+          render json: { error: 'Merchant does not exist' }, status: :not_found
         else
           render json: ItemSerializer.new(Item.update(params[:id], item_params))
         end
