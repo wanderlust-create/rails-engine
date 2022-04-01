@@ -13,7 +13,7 @@ module Api
 
       def merchant_exist(params)
         if !Merchant.exists?(params[:merchant_id])
-          render json: { error: 'Merchant does not exist' }, status: :not_found
+          render json: { error: 'Merchant does not exist'}, status: :not_found
         else
           render json: ItemSerializer.new(Item.update(params[:id], item_params))
         end
@@ -32,7 +32,7 @@ module Api
         if new_item.save
           render json: ItemSerializer.new(new_item), status: :created
         else
-          render json: { error: 'Missing Information', code: 400 }, status: :bad_request
+          render json: { error: 'Incorrect or Missing Information'}, status: :bad_request
         end
       end
 
