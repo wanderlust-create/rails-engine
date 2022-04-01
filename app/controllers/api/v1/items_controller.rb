@@ -11,6 +11,22 @@ module Api
         render json: ItemSerializer.new(Item.find(params[:id]))
       end
 
+      def merchant_exist(params)
+        if !Merchant.exists?(params[:merchant_id])
+          render json: { error: 'Merchant does not exist'}, status: :not_found
+        else
+          render json: ItemSerializer.new(Item.update(params[:id], item_params))
+        end
+      end
+
+      def update
+        if params[:merchant_id]
+          merchant_exist(params)
+        else
+          render json: ItemSerializer.new(Item.update(params[:id], item_params))
+        end
+      end
+
       def create
         new_item = Item.new(item_params)
         if new_item.save

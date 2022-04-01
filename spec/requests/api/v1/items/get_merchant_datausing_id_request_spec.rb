@@ -6,7 +6,7 @@ RSpec.describe 'GET/ merchant data for a given item ID' do
     merchant1 = Merchant.create!(name: 'Monkey Moaping')
     item1 = Item.create!(name: 'Three Item', description: 'three', unit_price: 1.7, merchant_id: merchant1.id)
 
-    get "/api/v1/items/#{item1.id}/merchants"
+    get "/api/v1/items/#{item1.id}/merchant"
 
     expect(response).to be_successful
 
