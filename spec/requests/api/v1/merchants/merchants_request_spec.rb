@@ -8,7 +8,7 @@ RSpec.describe 'Merchant API' do
 
       get '/api/v1/merchants'
 
-      expect(response).to be_successful
+      expect(response).to have_http_status(200)
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
@@ -33,7 +33,7 @@ RSpec.describe 'Merchant API' do
 
       get "/api/v1/merchants/#{merchant1.id}"
 
-      expect(response).to be_successful
+      expect(response).to have_http_status(200)
 
       merchant = JSON.parse(response.body, symbolize_names: true)[:data]
 
