@@ -7,16 +7,20 @@ class Item < ApplicationRecord
   validates :merchant_id, presence: true, numericality: true
 
   belongs_to :merchant
+  has_many :invoice_items, dependent: :destroy
+  has_many :invoices, through: :invoice_items
+  has_many :transactions, through: :invoices
+  has_many :bulk_discounts, through: :merchant
 
   def self.search(search_params)
     if search_params[:name]
       where('name ILIKE ?', "%#{search_params[:name]}%").order(:name).limit 1
 
     elsif search_params[:min_price]
-      where('unit_price >= ?', search_params[:min_price]).order(:unit_price).limit 1
+      where('unit_price >= ?', search_params[:min_price].to_f).order(:name).limit 1
 
     elsif search_params[:max_price]
-      where('unit_price <= ?', search_params[:max_price]).order(:unit_price).limit 1
+      where('unit_price <= ?', search_params[:max_price].to_f).order(:name).limit 1
 
     else
       search_params[:min_price] && search_params[:max_price]

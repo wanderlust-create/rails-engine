@@ -20,6 +20,16 @@ module Api
         end
       end
 
+      def destroy
+        item = Item.find(params[:id])
+        invoices = item.invoices
+        invoices.each do |invoice|
+          invoice.destroy if invoice.invoice_items.count <= 1
+        end
+        item.destroy
+        render json: { message: 'item destroyed' }, status: 204
+      end
+
       def find_by
         if params[:name] && params[:min_price] && params[:max_price]
           render json: { error: 'cannot send both name and min_price and max_price', code: 400 }, status: :bad_request
