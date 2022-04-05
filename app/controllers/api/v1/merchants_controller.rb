@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::V1::MerchantsController < ApplicationController
   def index
     render json: MerchantSerializer.new(Merchant.all)
@@ -10,9 +11,9 @@ class Api::V1::MerchantsController < ApplicationController
 
   def find_all
     if params[:name] == ''
-      render json: { error: 'parameter cannot be empty'}, status: :bad_request
+      render json: { error: 'parameter cannot be empty' }, status: :bad_request
     elsif params['']
-      render json: { error: 'parameter cannot be missing'}, status: :bad_request
+      render json: { error: 'parameter cannot be missing' }, status: :bad_request
     elsif params[:name].instance_of?(String) && params[:name].length.positive?
       search_params = { name: params[:name] }
       @merchant = Merchant.search(search_params)

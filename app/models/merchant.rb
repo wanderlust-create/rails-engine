@@ -14,20 +14,19 @@ class Merchant < ApplicationRecord
 
   def self.top_merchants_by_revenue(number)
     joins(invoices: %i[invoice_items transactions])
-    .where(transactions: { result: 'success' }, invoices: { status: 'shipped' })
-    .group('merchants.id')
-    .select('merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
-    .order('total_revenue DESC')
-    .limit(number)
+      .where(transactions: { result: 'success' }, invoices: { status: 'shipped' })
+      .group('merchants.id')
+      .select('merchants.*, sum(invoice_items.unit_price * invoice_items.quantity) as total_revenue')
+      .order('total_revenue DESC')
+      .limit(number)
   end
 
   def self.top_merchants_by_items_sold(number)
     joins(invoices: %i[invoice_items transactions])
-    .where(transactions: { result: 'success' }, invoices: { status: 'shipped' })
-    .group('merchants.id')
-    .select('merchants.*, sum(invoice_items.quantity) as total_items_sold')
-    .order('total_items_sold DESC')
-    .limit(number)
+      .where(transactions: { result: 'success' }, invoices: { status: 'shipped' })
+      .group('merchants.id')
+      .select('merchants.*, sum(invoice_items.quantity) as total_items_sold')
+      .order('total_items_sold DESC')
+      .limit(number)
   end
-
 end
