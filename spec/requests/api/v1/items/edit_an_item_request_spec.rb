@@ -43,4 +43,31 @@ RSpec.describe 'EDIT item' do
     patch "/api/v1/items/#{item1.id}", params: update_params2
     expect(response).to have_http_status(400)
   end
+
+  xit 'will respond with an error if the data type is incorrect' do
+    merchant = Merchant.create!(name: 'Monkey Moaping')
+
+    item1 = Item.create!(name: 'Three Item', description: 'three', unit_price: 1.7, merchant_id: merchant.id)
+
+    get "/api/v1/items/#{item1.id}"
+
+    expect(response).to have_http_status(200)
+
+    item = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(item[:attributes][:name]).to eq('Three Item')
+    expect(item[:attributes][:description]).to eq('three')
+    expect(item[:attributes][:unit_price]).to eq 1.7
+
+    update_params3 = {
+      unit_price: 'string',
+      description: 1234
+    }
+
+    patch "/api/v1/items/#{item1.id}", params: update_params3
+
+    item = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(response).to have_http_status(400)
+  end
 end

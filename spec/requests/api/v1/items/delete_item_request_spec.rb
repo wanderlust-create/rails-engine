@@ -25,8 +25,8 @@ RSpec.describe 'DELETE item' do
     item2 = Item.create!(name: 'Four Item', description: 'four', unit_price: 15.7, merchant_id: merchant.id)
     item3 = Item.create!(name: 'Five Item', description: 'five', unit_price: 175.7, merchant_id: merchant.id)
 
-    invoice1 = Invoice.create!(status: 2, customer_id: customer.id)
-    invoice2 = Invoice.create!(status: 2, customer_id: customer.id)
+    invoice1 = Invoice.create!(status: 2, customer_id: customer.id, merchant_id: merchant.id)
+    invoice2 = Invoice.create!(status: 2, customer_id: customer.id, merchant_id: merchant.id)
 
     invoice_item1 = InvoiceItem.create!(item_id: item1.id, invoice_id: invoice1.id, quantity: 3, unit_price: 12.7)
     invoice_item2 = InvoiceItem.create!(item_id: item1.id, invoice_id: invoice2.id, quantity: 2, unit_price: 37.2)
