@@ -52,4 +52,18 @@ RSpec.describe 'POST/ item' do
       expect(response).to have_http_status(400)
     end
   end
+
+  describe 'given wrong data type' do
+    it 'will return an error code when given incorrect data type' do
+      item3_params = {
+        name: 1234,
+        description: 'Rare right now',
+        unit_price: 'string',
+        merchant_id: merchant.id
+      }
+      post '/api/v1/items', params: item3_params
+
+      expect(response).to have_http_status(400)
+    end
+  end
 end

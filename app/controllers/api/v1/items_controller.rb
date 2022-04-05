@@ -13,7 +13,7 @@ module Api
 
       def merchant_exist(params)
         if !Merchant.exists?(params[:merchant_id])
-          render json: { error: 'Merchant does not exist'}, status: :not_found
+          render json: { error: 'Merchant does not exist' }, status: :not_found
         else
           render json: ItemSerializer.new(Item.update(params[:id], item_params))
         end
@@ -32,7 +32,7 @@ module Api
         if new_item.save
           render json: ItemSerializer.new(new_item), status: :created
         else
-          render json: { error: 'Missing Information', code: 400 }, status: :bad_request
+          render json: { error: 'Incorrect or Missing Information' }, status: :bad_request
         end
       end
 
@@ -48,31 +48,31 @@ module Api
 
       def find_by
         if params[:name] && params[:min_price] && params[:max_price]
-          render json: { error: 'cannot send both name and min_price and max_price', code: 400 }, status: :bad_request
+          render json: { error: 'cannot send both name and min_price and max_price' }, status: :bad_request
 
         elsif params[:name] && params[:min_price]
-          render json: { error: 'cannot send both name and min_price', code: 400 }, status: :bad_request
+          render json: { error: 'cannot send both name and min_price' }, status: :bad_request
 
         elsif params[:name] && params[:max_price]
-          render json: { error: 'cannot send both name and max_price', code: 400 }, status: :bad_request
+          render json: { error: 'cannot send both name and max_price' }, status: :bad_request
 
         elsif params[:max_price] && params[:min_price] && params[:min_price].to_f > params[:max_price].to_f
-          render json: { error: 'min_price cannot be more than max_price', code: 400 }, status: :bad_request
+          render json: { error: 'min_price cannot be more than max_price' }, status: :bad_request
 
         elsif params[:max_price].to_f.negative? || params[:min_price].to_f.negative?
-          render json: { error: 'request cannot be lower than 0', data: {}, code: 400 }, status: :bad_request
+          render json: { error: 'request cannot be lower than 0', data: {} }, status: :bad_request
 
         elsif params[:name] == '' || params[:max_price] == '' || params[:min_price] == ''
-          render json: { error: 'parameter cannot be empty', code: 400 }, status: :bad_request
+          render json: { error: 'parameter cannot be empty' }, status: :bad_request
 
         elsif params['']
-          render json: { error: 'parameter cannot be missing', code: 400 }, status: :bad_request
+          render json: { error: 'parameter cannot be missing' }, status: :bad_request
 
         else
           search_params = { name: params[:name], min_price: params[:min_price], max_price: params[:max_price] }
           @item = Item.search(search_params)
           if @item == []
-            render json: { message: 'no item fits your request', data: {}, code: 200 }, status: :ok
+            render json: { message: 'no item fits your request', data: {} }, status: :ok
           elsif @item.count.positive?
             render json: ItemSerializer.new(Item.find(@item[0].id))
           end

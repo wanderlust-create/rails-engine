@@ -5,10 +5,10 @@ module Api
     class ItemMerchantController < ApplicationController
       def index
         if !Item.exists?(params[:id])
-          render json: { error: 'Item does not exist'}, status: :not_found
+          render json: { error: 'Item does not exist' }, status: :not_found
         else
-        render json: MerchantSerializer.new(Merchant.find_by(params[:merchant_id]))
-      end
+          render json: MerchantSerializer.new(Merchant.find_by(params[:merchant_id]))
+        end
       end
     end
   end
